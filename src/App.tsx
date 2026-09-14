@@ -1240,6 +1240,9 @@ function CartDrawer({ cart, open, onClose, onNav, onChange, onRemove }: {
   const [couponInput, setCouponInput] = useState('')
   const [coupon, setCoupon] = useState<string|null>(null)
   const [couponMsg, setCouponMsg] = useState<{ok:boolean;text:string}|null>(null)
+  const [pincode, setPincode] = useState('')
+  const [orderErr, setOrderErr] = useState<string|null>(null)
+  const pinOk = /^641\d{3}$/.test(pincode.trim())
   const sub = cartSubtotal(cart)
   const couponData = coupon ? COUPONS[coupon] : null
   const disc = couponData ? (couponData.flat ? Math.min(couponData.off, sub) : Math.round(sub * couponData.off)) : 0
@@ -1254,6 +1257,16 @@ function CartDrawer({ cart, open, onClose, onNav, onChange, onRemove }: {
   }
   const checkout = () => {
     if (!cart.length) return
+    if (mode === 'delivery') {
+      const pin = pincode.trim()
+      if (!/^641\d{3}$/.test(pin)) {
+        setOrderErr(!pin
+          ? 'Please enter your 6-digit delivery pincode.'
+          : `Sorry — we currently deliver only within Coimbatore (pincodes starting 641). We can't deliver to ${pin}. Please choose Pickup, or call us on 95148 00333.`)
+        return
+      }
+    }
+    setOrderErr(null)
     const lines = cart.map(i => {
       const extras = i.extras.length ? ` (+${i.extras.map(e => e.n).join(', ')})` : ''
       return `• ${i.qty} x ${i.name} — ${i.portion}${extras} = ${money(lineTotal(i))}`
@@ -1265,6 +1278,7 @@ function CartDrawer({ cart, open, onClose, onNav, onChange, onRemove }: {
       (disc > 0 ? `Discount${coupon ? ` (${coupon})` : ''}: -${money(disc)}\n` : '') +
       `GST (5%): ${money(gst)}\n` +
       `${mode === 'delivery' ? 'Delivery' : 'Pickup'}: ${delivery ? money(delivery) : 'FREE'}\n` +
+      (mode === 'delivery' ? `Delivery pincode: ${pincode.trim()}\n` : '') +
       `Total: ${money(grand)}`
     if (WHATSAPP_NUMBER) window.open(waLink(msg), '_blank', 'noopener')
     onClose()
@@ -1312,13 +1326,23 @@ function CartDrawer({ cart, open, onClose, onNav, onChange, onRemove }: {
           <div style={{borderTop:'1px solid var(--line)',padding:'16px 22px',display:'flex',flexDirection:'column',gap:11,background:'var(--char)'}}>
             <div style={{display:'flex',gap:8,background:'var(--panel)',border:'1px solid var(--line)',borderRadius:9,padding:4}}>
               {(['delivery','pickup'] as const).map(m => (
-                <button key={m} onClick={() => setMode(m)} style={{flex:1,padding:'8px',borderRadius:7,fontWeight:700,fontSize:'.83rem',cursor:'pointer',border:'none',transition:'.2s',
+                <button key={m} onClick={() => { setMode(m); setOrderErr(null) }} style={{flex:1,padding:'8px',borderRadius:7,fontWeight:700,fontSize:'.83rem',cursor:'pointer',border:'none',transition:'.2s',
                   background:mode===m?'linear-gradient(135deg,var(--gold-soft),var(--gold))':'transparent',
                   color:mode===m?'#22160a':'var(--ink-soft)'}}>
                   {m==='delivery'?'🛵 Delivery':'🥡 Pickup'}
                 </button>
               ))}
             </div>
+            {mode==='delivery' && (
+              <div style={{display:'flex',flexDirection:'column',gap:5}}>
+                <input value={pincode} onChange={e=>{ setPincode(e.target.value.replace(/\D/g,'').slice(0,6)); if(orderErr) setOrderErr(null) }} inputMode="numeric" maxLength={6} placeholder="Delivery pincode (e.g. 641024)" aria-label="Delivery pincode" style={{background:'var(--panel)',border:`1px solid ${pincode.length===6 && !pinOk ? '#e8836f' : 'var(--line)'}`,borderRadius:8,padding:'9px 11px',color:'var(--ink)',fontSize:'.84rem',outline:'none',fontFamily:'inherit',letterSpacing:'.06em'}} />
+                {pincode.length===6 && !pinOk
+                  ? <span style={{fontSize:'.74rem',fontWeight:700,color:'#e8836f'}}>Outside our delivery area — we deliver only within Coimbatore (641xxx). Choose Pickup or call 95148&nbsp;00333.</span>
+                  : pinOk
+                    ? <span style={{fontSize:'.74rem',fontWeight:700,color:'var(--leaf)'}}>✓ We deliver to your area.</span>
+                    : <span style={{fontSize:'.7rem',color:'var(--ink-mute)'}}>We deliver within Coimbatore only.</span>}
+              </div>
+            )}
             <div style={{display:'flex',gap:8}}>
               <input value={couponInput} onChange={e=>setCouponInput(e.target.value)} placeholder="Coupon code" style={{flex:1,background:'var(--panel)',border:'1px solid var(--line)',borderRadius:8,padding:'9px 11px',color:'var(--ink)',fontSize:'.84rem',outline:'none',textTransform:'uppercase',fontFamily:'inherit'}} />
               <Btn variant="outline" size="sm" onClick={applyCoupon}>Apply</Btn>
@@ -1334,6 +1358,7 @@ function CartDrawer({ cart, open, onClose, onNav, onChange, onRemove }: {
                 <span>Total</span><b style={{color:'var(--gold-ink)',fontVariantNumeric:'tabular-nums'}}>{money(grand)}</b>
               </div>
             </div>
+            {orderErr && <span role="alert" style={{fontSize:'.78rem',fontWeight:700,color:'#e8836f',lineHeight:1.45,background:'rgba(232,131,111,.1)',border:'1px solid rgba(232,131,111,.35)',borderRadius:8,padding:'8px 11px'}}>{orderErr}</span>}
             <Btn block onClick={checkout} style={WHATSAPP_NUMBER?{background:'#25D366',borderColor:'#25D366',color:'#04310f'}:undefined}>
               {WHATSAPP_NUMBER ? `💬  Order on WhatsApp · ${money(grand)}` : `Proceed to Checkout · ${money(grand)}`}
             </Btn>
