@@ -1359,9 +1359,10 @@ function CartDrawer({ cart, open, onClose, onNav, onChange, onRemove }: {
               </div>
             </div>
             {orderErr && <span role="alert" style={{fontSize:'.78rem',fontWeight:700,color:'#e8836f',lineHeight:1.45,background:'rgba(232,131,111,.1)',border:'1px solid rgba(232,131,111,.35)',borderRadius:8,padding:'8px 11px'}}>{orderErr}</span>}
-            <Btn block onClick={checkout} style={WHATSAPP_NUMBER?{background:'#25D366',borderColor:'#25D366',color:'#04310f'}:undefined}>
-              {WHATSAPP_NUMBER ? `💬  Order on WhatsApp · ${money(grand)}` : `Proceed to Checkout · ${money(grand)}`}
-            </Btn>
+            {(() => { const blocked = mode === 'delivery' && !pinOk; return (
+            <Btn block onClick={checkout} style={{...(WHATSAPP_NUMBER?{background:'#25D366',borderColor:'#25D366',color:'#04310f'}:{}), ...(blocked?{opacity:.5,cursor:'not-allowed'}:{})}}>
+              {blocked ? '📍 Enter a Coimbatore pincode' : WHATSAPP_NUMBER ? `💬  Order on WhatsApp · ${money(grand)}` : `Proceed to Checkout · ${money(grand)}`}
+            </Btn> ) })()}
             {WHATSAPP_NUMBER && <span style={{fontSize:'.72rem',color:'var(--ink-mute)',textAlign:'center'}}>Opens WhatsApp with your order — we'll confirm and arrange {mode==='delivery'?'delivery':'pickup'}.</span>}
           </div>
         )}
