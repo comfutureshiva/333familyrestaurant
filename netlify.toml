@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Serve the SPA entry for any path (safe even though this app has no URL routes)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
