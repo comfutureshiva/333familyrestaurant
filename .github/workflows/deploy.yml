@@ -34,4 +34,5 @@ jobs:
           local-dir: ./dist/
           server-dir: /public_html/
           dangerous-clean-slate: false
+          state-name: .ftp-deploy-sync-state-${{ github.run_id }}.json
           timeout: 120000
