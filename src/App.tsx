@@ -71,126 +71,139 @@ type MenuSection = {
 }
 
 const MENU: MenuSection[] = [
-  {id:'soups',title:'Soups',sub:'Slow-simmered, warming starts',filters:['South Indian'],groups:[
-    {label:'Vegetarian',items:[
-      ['Sweet Corn Veg Soup','veg',0,120],['Hot & Sour Veg Soup','veg',1,130],['Veg Manchow Soup','veg',1,130],
-      ['Mushroom Soup','veg',0,140],['Tomato Soup','veg',0,120]]},
-    {label:'Non-Vegetarian',items:[
-      ['Chicken Sweet Corn Soup','chicken',0,150],['Chicken Hot & Sour Soup','chicken',1,160],
-      ['Chicken Manchow Soup','chicken',1,160],['Mutton Pepper Soup','mutton',2,180,'Peppery, bone-brothed'],
-      ['Mutton Bone Soup','mutton',2,190],['Nattu Kozhi Soup','chicken',2,190,'Country chicken, slow-boiled'],
-      ['Aatukal Soup','mutton',2,200,'Trotters, herbs & pepper']]}
-  ]},
-  {id:'chicken-start',title:'Chicken Starters',sub:'Fry-shop favourites, freshly tossed',filters:[],type:'chicken',items:[
-    ['Chicken 65','chicken',2,220,'Crisp, curry-leaf tossed, signature'],['Chicken Lollipop','chicken',2,240],
-    ['Dragon Chicken','chicken',2,250],['Chilli Chicken','chicken',2,240],['Pepper Chicken','chicken',3,250],
-    ['Garlic Chicken','chicken',1,240],['Ginger Chicken','chicken',1,240],['Schezwan Chicken','chicken',3,250],
-    ['Chicken Manchurian','chicken',1,240],['Chicken Chukka','chicken',3,260,'Dry-roasted, masala coated'],
-    ['Chicken Sukka','chicken',3,260],['Chicken Pallipalayam','chicken',3,270,'Kongu-style, coconut & chilli'],
-    ['Kongu Chicken Fry','chicken',2,260],['Madurai Chicken Fry','chicken',3,260],
-    ['Nattu Kozhi Fry','chicken',3,290,'Country chicken, pepper heavy'],['Chicken Pepper Fry','chicken',3,260]]},
-  {id:'mutton-start',title:'Mutton Starters',sub:'Chettinad heat, tender cuts',filters:[],type:'mutton',items:[
-    ['Mutton Chukka','mutton',3,320,'Dry, black-pepper forward, signature'],['Mutton Sukka','mutton',3,320],
-    ['Mutton Pepper Fry','mutton',3,330],['Mutton Varuval','mutton',3,330],['Madurai Mutton','mutton',3,340,'Fiery Madurai masala'],
-    ['Mutton Liver Fry','mutton',2,300],['Mutton Brain Fry','mutton',2,320],['Mutton Kola Urundai','mutton',2,300,'Spiced meatballs'],
-    ['Mutton Keema','mutton',2,310],['Mutton Bone Roast','mutton',3,340]]},
+  {id:'soups',title:'Soups',sub:'Slow-simmered, warming starts',filters:[],items:[
+    ['Veg Soup','veg',0,50],['Mushroom Soup','veg',0,70],['Chicken Soup','chicken',0,70],
+    ['Nattukozhi Soup','chicken',2,80,'Country chicken, slow-boiled'],['Mutton Leg Soup','mutton',2,70],
+    ['Crab Soup','seafood',2,90]]},
+  {id:'chicken-oilfried',title:'Chicken · Oil Fried (Boneless)',sub:'Fry-shop favourites, freshly tossed',filters:[],type:'chicken',items:[
+    ['Chilly Chicken','chicken',2,140],['Chicken 65','chicken',2,180,'Crisp, curry-leaf tossed — signature'],
+    ['Chicken Lollipop (4 Pcs)','chicken',2,160],['Chicken Leg Piece','chicken',1,80],
+    ['Chicken 777','chicken',3,240],['Bullet Chicken','chicken',3,220],['Chicken Hot Pepper','chicken',3,240],
+    ['Moru Moru Chicken','chicken',2,240,'Extra-crisp fried chicken'],['Wings Chilli','chicken',2,150],
+    ['Wings Hot Pepper','chicken',3,180],['Moru Moru Wings','chicken',2,220]]},
+  {id:'chicken-boneless',title:'Chicken · Boneless (Dry & Gravy)',sub:'Choose dry or gravy',filters:[],type:'chicken',items:[
+    ['Chettinadu Chicken (Gravy)','chicken',3,250,'Roasted spice, coconut base'],
+    ['Pallipalayam Chicken (Dry)','chicken',3,220,'Kongu-style, coconut & chilli'],['Pallipalayam Chicken (Gravy)','chicken',3,250],
+    ['Pepper Chicken (Dry)','chicken',3,220],['Pepper Chicken (Gravy)','chicken',3,250],
+    ['Hydrabad Chicken (Dry)','chicken',2,220],['Hydrabad Chicken (Gravy)','chicken',2,250],
+    ['Kerala Fried Chicken','chicken',2,220],
+    ['Maharani Chicken (Dry)','chicken',2,220],['Maharani Chicken (Gravy)','chicken',2,250],
+    ['Butter Chicken (Gravy)','chicken',1,250],
+    ['Chicken Manchurian (Dry)','chicken',1,220],['Chicken Manchurian (Gravy)','chicken',1,250],
+    ['Dragon Chicken','chicken',2,220],['Chicken Tikka Masala (Gravy)','chicken',2,250],
+    ['Kadaai Chicken Masala (Gravy)','chicken',2,250],['Uppukari','chicken',2,220],
+    ['Chinthamani Chicken','chicken',3,240],
+    ['Chicken Chukka (Dry)','chicken',3,220,'Dry-roasted, masala coated'],['Chicken Chukka (Gravy)','chicken',3,250]]},
+  {id:'nattukozhi',title:'Country Chicken · Nattukozhi',sub:'',filters:[],type:'chicken',items:[
+    ['Nattukozhi Chettinadu (Gravy)','chicken',3,220],
+    ['Nattukozhi Pallipalayam (Dry)','chicken',3,190],['Nattukozhi Pallipalayam (Gravy)','chicken',3,220],
+    ['Nattukozhi Pepper (Dry)','chicken',3,190],['Nattukozhi Pepper (Gravy)','chicken',3,220],
+    ['Nattukozhi Chukka (Dry)','chicken',3,190],['Nattukozhi Chukka (Gravy)','chicken',3,220]]},
+  {id:'kaadai',title:'Quail · Kaadai',sub:'',filters:[],type:'chicken',items:[
+    ['Kaadai Roast (Oil Fry)','chicken',2,150],['Kaadai Chilly (Oil Fry)','chicken',2,150],
+    ['Kaadai (Dry)','chicken',2,170],['Kaadai (Gravy)','chicken',2,200],
+    ['Kaadai Pepper (Dry)','chicken',3,190],['Kaadai Pepper (Gravy)','chicken',3,200],['Kaadai 65','chicken',2,170]]},
+  {id:'mutton',title:'Mutton · Boneless',sub:'Chettinad heat, tender cuts',filters:[],type:'mutton',items:[
+    ['Mutton Brain','mutton',2,160],
+    ['Mutton Liver (Dry)','mutton',2,180],['Mutton Liver (Gravy)','mutton',2,210],
+    ['Mutton Thalakari (Dry)','mutton',2,160],['Mutton Thalakari (Gravy)','mutton',2,190],
+    ['Mutton Kudal (Dry)','mutton',2,160],['Mutton Kudal (Gravy)','mutton',2,190],
+    ['Mutton Kudal Pepper (Dry)','mutton',3,180],['Mutton Kudal Pepper (Gravy)','mutton',3,210],
+    ['Mutton Chukka (Dry)','mutton',3,230,'Dry, black-pepper forward — signature'],['Mutton Chukka (Gravy)','mutton',3,260],
+    ['Mutton Kadaai Masala (Gravy)','mutton',3,290]]},
+  {id:'grilled',title:'Grilled Chicken',sub:'Charcoal char, half or full',filters:['Tandoor'],type:'chicken',items:[
+    ['Grilled Chicken (Half)','chicken',2,200],['Grilled Chicken (Full)','chicken',2,380],
+    ['Pepper Grilled Chicken (Half)','chicken',3,220],['Pepper Grilled Chicken (Full)','chicken',3,420]]},
+  {id:'alfaham',title:'Alfaham',sub:'Arabian charcoal grill, half or full',filters:['Tandoor'],type:'chicken',items:[
+    ['Alfaham (Half)','chicken',2,200],['Alfaham (Full)','chicken',2,380],
+    ['Spicy Alfaham (Half)','chicken',3,220],['Spicy Alfaham (Full)','chicken',3,420],
+    ['Peri Peri Alfaham (Half)','chicken',3,220],['Peri Peri Alfaham (Full)','chicken',3,420],
+    ['Honey Alfaham (Half)','chicken',1,240],['Honey Alfaham (Full)','chicken',1,460],
+    ['Pepper Alfaham (Half)','chicken',3,220],['Pepper Alfaham (Full)','chicken',3,420]]},
+  {id:'tandoori',title:'Tandoori · Veg & Non-Veg',sub:'Clay-oven smoke',filters:['Tandoor'],items:[
+    ['Tandoori Chicken (Half)','chicken',2,220,'Yoghurt-marinated'],['Tandoori Chicken (Full)','chicken',2,420],
+    ['Pepper Tandoori (Half)','chicken',3,240],['Pepper Tandoori (Full)','chicken',3,460],
+    ['Chicken Tikka (8 Pcs)','chicken',2,220],['Fish Tikka','seafood',2,240],['Panneer Tikka (8 Pcs)','veg',1,240]]},
   {id:'fish',title:'Seafood · Fish',sub:'From the coast, fried & curried',filters:['Seafood'],type:'seafood',items:[
-    ['Vanjaram Fish Fry','seafood',2,360,'Seer fish, tawa-fried, signature'],['Pomfret Fry','seafood',2,380],
-    ['Sankara Fish Fry','seafood',2,320],['Nethili Fry','seafood',2,240,'Crisp anchovies'],['Fish 65','seafood',2,260],
-    ['Fish Pepper Fry','seafood',3,300],['Chilli Fish','seafood',2,290],['Dragon Fish','seafood',2,300],
-    ['Fish Manchurian','seafood',1,290],['Tawa Fish','seafood',2,300],['Fish Tikka','seafood',2,320],
-    ['Chettinad Fish Curry','seafood',3,320],['Meen Kuzhambu','seafood',3,300,'Tangy tamarind fish curry']]},
-  {id:'prawns',title:'Seafood · Prawns',sub:'',filters:['Seafood'],type:'seafood',items:[
-    ['Prawn 65','seafood',2,300],['Prawn Pepper Fry','seafood',3,320],['Prawn Masala','seafood',2,320,'Signature coastal masala'],
-    ['Chilli Prawn','seafood',2,320],['Dragon Prawn','seafood',2,330],['Prawn Manchurian','seafood',1,320],
-    ['Prawn Tawa Fry','seafood',2,320],['Prawn Chettinad','seafood',3,340]]},
+    ['Vaval Fish (Dry)','seafood',2,60],['Vaval Fish (Gravy)','seafood',2,150],
+    ['Nethili Fish (Dry)','seafood',2,120,'Crisp anchovies'],['Nethili Fish (Gravy)','seafood',2,180],
+    ['Fish Boneless (Dry)','seafood',2,140],['Fish Boneless (Gravy)','seafood',2,200],
+    ['Fish Manchurian (Dry)','seafood',1,180],['Fish Manchurian (Gravy)','seafood',1,210],
+    ['Fish 65 (Boneless)','seafood',2,180],['Fish 85 (Boneless)','seafood',2,180],
+    ['Fish Pepper (Boneless)','seafood',3,200],['Fish Hot Pepper (Boneless)','seafood',3,220],
+    ['Fish Finger','seafood',2,220],['Vanjaram Fish','seafood',2,180,'Seer fish, tawa-fried — signature']]},
+  {id:'prawn',title:'Seafood · Prawn',sub:'',filters:['Seafood'],type:'seafood',items:[
+    ['Prawn Chilly','seafood',2,200],
+    ['Prawn Masala (Dry)','seafood',2,200,'Coastal masala'],['Prawn Masala (Gravy)','seafood',2,230],
+    ['Prawn Pepper (Dry)','seafood',3,220],['Prawn Pepper (Gravy)','seafood',3,250],
+    ['Prawn Hot Pepper Fry','seafood',3,240],['Prawn 65','seafood',2,240],
+    ['Prawn Manchurian (Dry)','seafood',1,240],['Prawn Manchurian (Gravy)','seafood',1,270]]},
   {id:'crab',title:'Seafood · Crab',sub:'',filters:['Seafood'],type:'seafood',items:[
-    ['Crab Masala','seafood',3,420,'Whole crab, thick masala'],['Crab Pepper Fry','seafood',3,440],
-    ['Crab Chettinad','seafood',3,450],['Nandu Rasam','seafood',3,260,'Crab-broth pepper rasam'],
-    ['Nandu Omelette','seafood',2,220]]},
-  {id:'egg',title:'Egg',sub:'Kai-veetu classics',filters:[],type:'egg',items:[
-    ['Boiled Egg','egg',0,40],['Half Boil','egg',0,50],['Kalakki','egg',1,70,'Spiced scramble'],['Plain Omelette','egg',0,60],
-    ['Masala Omelette','egg',1,80],['Egg Podimas','egg',1,90],['Egg Pepper Fry','egg',2,110],['Egg Masala','egg',2,120],
-    ['Egg Curry','egg',2,130],['Chilli Egg','egg',2,120],['Egg Fried Rice','egg',1,160],['Egg Noodles','egg',1,160]]},
-  {id:'biryani',title:'Biryani Festival',sub:'Seeraga samba & dum, sealed with aroma',filters:['Biryani'],items:[
-    ['Special Chicken Biryani','chicken',2,260,'House special, boneless & bone mix'],['Chicken Dum Biryani','chicken',2,250],
-    ['Seeraga Samba Chicken Biryani','chicken',2,280,'Fragrant short-grain rice'],['Nattu Kozhi Biryani','chicken',3,320,'Country chicken'],
-    ['Mutton Biryani','mutton',2,340],['Mutton Dum Biryani','mutton',2,350],['Seeraga Samba Mutton Biryani','mutton',2,370],
-    ['Mutton Keema Biryani','mutton',2,320],['Prawn Biryani','seafood',2,340],['Fish Biryani','seafood',2,320],
-    ['Egg Biryani','egg',1,180],['Vegetable Biryani','veg',1,190],['Mushroom Biryani','veg',1,210],
-    ['Paneer Biryani','veg',1,220],['Kuska','veg',1,150,'Plain flavoured biryani rice']]},
-  {id:'si-chicken',title:'South Indian Main · Chicken',sub:'Gravies for rice, dosai & parotta',filters:['South Indian'],type:'chicken',items:[
-    ['Chicken Chettinad','chicken',3,270,'Roasted spice, coconut base'],['Chicken Curry','chicken',2,250],
-    ['Nattu Kozhi Kuzhambu','chicken',3,320],['Kongu Chicken Curry','chicken',2,270],['Chicken Pepper Masala','chicken',3,270],
-    ['Butter Chicken','chicken',1,290],['Chicken Tikka Masala','chicken',2,290],['Kadai Chicken','chicken',2,280]]},
-  {id:'si-mutton',title:'South Indian Main · Mutton',sub:'',filters:['South Indian'],type:'mutton',items:[
-    ['Mutton Chettinad','mutton',3,350],['Mutton Curry','mutton',2,330],['Mutton Pepper Masala','mutton',3,350],
-    ['Mutton Keema Masala','mutton',2,330],['Mutton Kola Curry','mutton',2,340],['Mutton Paaya','mutton',2,340,'Trotter stew for idiyappam'],
-    ['Mutton Kuzhambu','mutton',3,340]]},
-  {id:'si-seafood',title:'South Indian Main · Seafood',sub:'',filters:['South Indian','Seafood'],type:'seafood',items:[
-    ['Meen Kuzhambu','seafood',3,300],['Fish Chettinad','seafood',3,320],['Prawn Masala','seafood',2,320],
-    ['Prawn Chettinad','seafood',3,340],['Crab Masala','seafood',3,420]]},
-  {id:'tandoor',title:'North Indian · Tandoor & Grill',sub:'Clay-oven smoke, charcoal char',filters:['North Indian','Tandoor','Grill'],items:[
-    ['Tandoori Chicken','chicken',2,320,'Half / full, yoghurt-marinated'],['Chicken Tikka','chicken',2,290],
-    ['Chicken Malai Tikka','chicken',1,300,'Creamy, mild'],['Hariyali Chicken Tikka','chicken',2,300,'Mint & coriander'],
-    ['Chicken Seekh Kebab','chicken',2,300],['Mutton Seekh Kebab','mutton',2,340],['Fish Tikka','seafood',2,320],
-    ['Tandoori Fish','seafood',2,360],['Tandoori Prawns','seafood',2,380],['Grilled Chicken','chicken',2,300],
-    ['BBQ Chicken','chicken',2,310],['Pepper BBQ Chicken','chicken',3,320]]},
-  {id:'ni-curry',title:'North Indian Curries',sub:'Rich, buttery, tandoor-friendly',filters:['North Indian'],items:[
-    ['Butter Chicken','chicken',1,290],['Chicken Tikka Masala','chicken',2,290],['Kadai Chicken','chicken',2,280],
-    ['Chicken Mughlai','chicken',1,300],['Mutton Rogan Josh','mutton',2,360],['Mutton Masala','mutton',2,350],
-    ['Kadai Mutton','mutton',2,350],['Dal Tadka','veg',1,180],['Dal Makhani','veg',1,200],
-    ['Paneer Butter Masala','veg',1,240],['Kadai Paneer','veg',2,240],['Palak Paneer','veg',1,240],['Mushroom Masala','veg',1,230]]},
-  {id:'chinese-start',title:'Indo-Chinese · Starters',sub:'Wok-tossed, veg & non-veg',filters:['Chinese'],items:[
-    ['Gobi 65','veg',2,190],['Gobi Manchurian','veg',1,190],['Chilli Gobi','veg',2,190],['Chilli Paneer','veg',2,230],
-    ['Paneer Manchurian','veg',1,230],['Mushroom 65','veg',2,210],['Chilli Mushroom','veg',2,210],
-    ['Veg Spring Roll','veg',0,170],['Chicken Lollipop','chicken',2,240],['Chilli Chicken','chicken',2,240],
-    ['Dragon Chicken','chicken',2,250],['Schezwan Chicken','chicken',3,250],['Garlic Chicken','chicken',1,240],
-    ['Chicken Manchurian','chicken',1,240],['Chilli Fish','seafood',2,290],['Dragon Prawn','seafood',2,330],['Chilli Prawn','seafood',2,320]]},
-  {id:'fried-rice',title:'Indo-Chinese · Fried Rice',sub:'',filters:['Chinese'],items:[
-    ['Veg Fried Rice','veg',1,160],['Mushroom Fried Rice','veg',1,180],['Paneer Fried Rice','veg',1,190],
-    ['Schezwan Veg Fried Rice','veg',2,180],['Egg Fried Rice','egg',1,170],['Chicken Fried Rice','chicken',1,200],
-    ['Schezwan Chicken Fried Rice','chicken',2,210],['Mixed Fried Rice','chicken',1,230],['Prawn Fried Rice','seafood',1,240],
-    ['Seafood Fried Rice','seafood',1,260]]},
-  {id:'noodles',title:'Indo-Chinese · Noodles',sub:'',filters:['Chinese'],items:[
-    ['Veg Hakka Noodles','veg',1,160],['Schezwan Veg Noodles','veg',2,180],['Mushroom Noodles','veg',1,180],
-    ['Egg Noodles','egg',1,170],['Chicken Hakka Noodles','chicken',1,200],['Schezwan Chicken Noodles','chicken',2,210],
-    ['Mixed Noodles','chicken',1,230],['Prawn Noodles','seafood',1,240],['Seafood Noodles','seafood',1,260]]},
-  {id:'tiffin',title:'South Indian Tiffin & Breads',sub:'Dosai, parotta & the classics',filters:['South Indian','Bread'],items:[
-    ['Idli','veg',0,40],['Kal Dosai','veg',0,60],['Egg Kal Dosai','egg',1,80],['Kari Dosai','chicken',2,140,'Dosai layered with minced meat'],
-    ['Mutton Kari Dosai','mutton',2,170],['Chicken Kari Dosai','chicken',2,150],['Appam','veg',0,50],['Idiyappam','veg',0,60],
-    ['Parotta','veg',0,25],['Bun Parotta','veg',0,35],['Kothu Parotta','veg',1,140],['Chicken Kothu Parotta','chicken',2,180],
-    ['Mutton Kothu Parotta','mutton',2,210],['Egg Kothu Parotta','egg',1,160],['Chapati','veg',0,30],['Naan','veg',0,45],
-    ['Butter Naan','veg',0,55],['Garlic Naan','veg',0,65],['Roti','veg',0,35],['Kulcha','veg',0,60]]},
-  {id:'veg',title:'Vegetarian',sub:'A full veg table, cooked with the same care',filters:[],type:'veg',items:[
-    ['Paneer 65','veg',2,220],['Gobi 65','veg',2,190],['Mushroom 65','veg',2,210],['Baby Corn 65','veg',2,200],
-    ['Paneer Tikka','veg',1,250],['Gobi Manchurian','veg',1,190],['Mushroom Pepper Fry','veg',2,220],
-    ['Paneer Butter Masala','veg',1,240],['Kadai Paneer','veg',2,240],['Palak Paneer','veg',1,240],
-    ['Veg Chettinad','veg',2,210],['Mushroom Chettinad','veg',2,220],['Kadai Vegetable','veg',1,210],
-    ['Dal Fry','veg',1,170],['Dal Tadka','veg',1,180],['Dal Makhani','veg',1,200],['Veg Kurma','veg',1,190],
-    ['Vegetable Biryani','veg',1,190],['Paneer Biryani','veg',1,220],['Mushroom Biryani','veg',1,210]]},
-  {id:'combos',title:'Meals & Combos',sub:'Value plates & family buckets',filters:['combos'],items:[
-    ['South Indian Veg Meals','veg',1,180,'Rice, sambar, rasam, poriyal, curd, appalam'],
-    ['South Indian Non-Veg Meals','chicken',2,240,'Full meals with chicken curry & fry'],
-    ['Chicken Meals','chicken',2,260,'Biryani or rice + chicken curry, fry, egg'],
-    ['Mutton Meals','mutton',2,320,'Rice + mutton curry, chukka, egg'],
-    ['Fish Meals','seafood',2,300,'Rice + meen kuzhambu & fish fry'],
-    ['Chicken Biryani Combo','chicken',2,320,'Biryani + starter + drink'],
-    ['Mutton Biryani Combo','mutton',2,390,'Biryani + starter + drink'],
-    ['Family Biryani Bucket','chicken',2,899,'Serves 4 · biryani, gravy, raita & shorba'],
-    ['Grill Chicken Combo','chicken',2,420,'Half grill + parotta + drink'],
-    ['Parotta + Chicken Curry','chicken',2,180],['Parotta + Mutton Curry','mutton',2,240],
-    ['Idiyappam + Paaya','mutton',2,220],['Kari Dosai Combo','chicken',2,220,'Kari dosai + egg + drink']]},
-  {id:'desserts',title:'Desserts',sub:'Sweet endings, cooling scoops',filters:['Desserts'],type:'dessert',items:[
-    ['Gulab Jamun','dessert',0,80],['Rasmalai','dessert',0,100],['Carrot Halwa','dessert',0,110],['Bread Halwa','dessert',0,110],
-    ['Elaneer Payasam','dessert',0,120,'Tender-coconut kheer'],['Payasam','dessert',0,90],['Falooda','dessert',0,160],
-    ['Brownie with Ice Cream','dessert',0,180],['Vanilla Ice Cream','dessert',0,80],['Chocolate Ice Cream','dessert',0,90],
-    ['Butterscotch Ice Cream','dessert',0,90],['Kulfi','dessert',0,100]]},
-  {id:'beverages',title:'Beverages',sub:'Filter coffee to jigarthanda',filters:['Beverages'],type:'drink',items:[
-    ['Filter Coffee','drink',0,50],['Tea','drink',0,40],['Masala Tea','drink',0,50],['Fresh Lime','drink',0,60],
-    ['Lemon Soda','drink',0,70],['Rose Milk','drink',0,80],['Badam Milk','drink',0,90],['Jigarthanda','drink',0,120,"Madurai's iced classic"],
-    ['Buttermilk','drink',0,50],['Lassi','drink',0,90],['Mango Lassi','drink',0,110],['Fresh Fruit Juices','drink',0,110],
-    ['Milkshakes','drink',0,130],['Soft Drinks','drink',0,50],['Mineral Water','drink',0,30]]},
+    ['Crab (Dry)','seafood',3,220,'Whole crab, thick masala'],['Crab (Gravy)','seafood',3,250],
+    ['Crab Pepper (Dry)','seafood',3,240],['Crab Pepper (Gravy)','seafood',3,270]]},
+  {id:'gobi',title:'Veg · Gobi',sub:'',filters:[],type:'veg',items:[
+    ['Gobi Masala (Gravy)','veg',1,200],['Gobi Manchurian (Dry)','veg',1,170],['Gobi Manchurian (Gravy)','veg',1,200],
+    ['Gobi Chilly','veg',2,110],['Gobi 65','veg',2,120],['Gobi Hot Pepper','veg',3,140]]},
+  {id:'mushroom',title:'Veg · Mushroom',sub:'',filters:[],type:'veg',items:[
+    ['Mushroom Masala (Gravy)','veg',1,200],['Mushroom Kadaai (Gravy)','veg',2,220],
+    ['Mushroom Manchurian (Dry)','veg',1,180],['Mushroom Manchurian (Gravy)','veg',1,210],
+    ['Mushroom Chilly','veg',2,130],['Mushroom 65','veg',2,140],['Mushroom Hot Pepper','veg',3,160]]},
+  {id:'paneer',title:'Veg · Paneer & Vegetables',sub:'',filters:[],type:'veg',items:[
+    ['Paneer Masala (Gravy)','veg',1,210],['Paneer Pepper (Dry)','veg',2,200],['Paneer Pepper (Gravy)','veg',2,230],
+    ['Paneer Kadaai (Gravy)','veg',2,240],['Paneer Manchurian (Dry)','veg',1,200],['Paneer Manchurian (Gravy)','veg',1,230],
+    ['Paneer Chilly','veg',2,150],['Paneer 65','veg',2,170],['Paneer Hot Pepper','veg',3,200],
+    ['Paneer Butter Masala (Gravy)','veg',1,200],['Mixed Vegetable Gravy','veg',1,200],['Green Peas Masala (Gravy)','veg',1,160]]},
+  {id:'babycorn',title:'Veg · Baby Corn',sub:'',filters:[],type:'veg',items:[
+    ['Baby Corn Chilli','veg',2,100],['Baby Corn 65','veg',2,110],['Baby Corn Hot Pepper Fry','veg',3,140],['Baby Corn Masala (Gravy)','veg',1,160]]},
+  {id:'biryani',title:'Biryani',sub:'Sealed & dum-cooked, unlimited',filters:['Biryani'],items:[
+    ['Chicken Biriyani (With Egg)','biryani',2,150,'House biryani, served with egg'],
+    ['Chilli Biriyani (With Egg)','biryani',2,150],['Chicken 65 Biriyani (With Egg)','biryani',2,170],
+    ['Gilma Biriyani','biryani',3,200,'333 special — rich & spicy'],['Mutton Biriyani (Boneless)','biryani',2,270],
+    ['Nattukozhi Biryani','biryani',3,230,'Country chicken biryani'],['Empty Biriyani','veg',1,100,'Plain flavoured biryani rice'],
+    ['Chicken Biriyani (1 Kg)','biryani',2,300],['Chicken Biriyani (2 Kg)','biryani',2,600],
+    ['Chilli Biriyani (1 Kg)','biryani',2,325],['Chilli Biriyani (2 Kg)','biryani',2,650],
+    ['Chicken 65 Biriyani (1 Kg)','biryani',2,350],['Chicken 65 Biriyani (2 Kg)','biryani',2,700],
+    ['Mutton Biriyani (1 Kg)','biryani',2,550],['Mutton Biriyani (2 Kg)','biryani',2,1100],
+    ['Grilled Biriyani Combo (2 Person)','biryani',2,350],['Grilled Biriyani Combo (4 Person)','biryani',2,700],
+    ['Tandoori Biriyani Combo (2 Person)','biryani',2,375],['Tandoori Biriyani Combo (4 Person)','biryani',2,750],
+    ['Alfaham Biriyani Combo (2 Person)','biryani',2,350],['Alfaham Biriyani Combo (4 Person)','biryani',2,700]]},
+  {id:'nv-friedrice',title:'Non-Veg Fried Rice',sub:'',filters:['Chinese'],items:[
+    ['Egg Fried Rice','egg',1,100],['Chicken Fried Rice','chicken',1,130],['Prawn Fried Rice','seafood',1,160],
+    ['Fish Fried Rice','seafood',1,160],['Chicken Pulao','chicken',1,160]]},
+  {id:'veg-friedrice',title:'Veg Fried Rice',sub:'',filters:['Chinese'],type:'veg',items:[
+    ['Veg Fried Rice','veg',1,80],['Cauliflower Fried Rice','veg',1,90],['Mushroom Fried Rice','veg',1,110],
+    ['Panneer Fried Rice','veg',1,150],['Mixed Veg Fried Rice','veg',1,130],['Ghee Fried Rice','veg',0,140],['Jeera Fried Rice','veg',0,120]]},
+  {id:'nv-noodles',title:'Non-Veg Noodles',sub:'',filters:['Chinese'],items:[
+    ['Egg Noodles','egg',1,100],['Chicken Noodles','chicken',1,130],['Prawn Noodles','seafood',1,160],
+    ['Fish Noodles','seafood',1,160],['Mixed Non-Veg Noodles','chicken',1,160]]},
+  {id:'veg-noodles',title:'Veg Noodles',sub:'',filters:['Chinese'],type:'veg',items:[
+    ['Veg Noodles','veg',1,80],['Gobi Noodles','veg',1,90],['Mushroom Noodles','veg',1,110],
+    ['Panneer Noodles','veg',1,150],['Mixed Veg Noodles','veg',1,150]]},
+  {id:'momos',title:'Momos',sub:'Steamed & fried, 8 pcs',filters:[],items:[
+    ['Chicken Momos (Steam · 8 Pcs)','chicken',1,180],['Chicken Fried Momos (8 Pcs)','chicken',1,200],
+    ['Chinese Chicken Momos (8 Pcs)','chicken',2,220],['Paneer Momos (8 Pcs)','veg',1,220],['Mix Veg Momos (8 Pcs)','veg',1,170]]},
+  {id:'parotta',title:'Parotta Varieties',sub:'Flaky, fresh off the tawa',filters:['Breads'],items:[
+    ['Plain Parotta','veg',0,30],['Bun Parotta','veg',0,40],['Poricha Parotta','veg',0,40],['Nool Parotta','veg',0,50],
+    ['Chicken Kothu Parotta (B/L)','chicken',2,180],['Pallipalayam Chicken Kothu Parotta (B/L)','chicken',3,220],
+    ['Chilly Parotta','veg',2,120],['Egg Kothu Parotta','egg',1,100],['Mushroom Laba Parotta','veg',1,150],
+    ['Egg Laba Parotta','egg',1,100],['Chicken Laba Parotta','chicken',2,250]]},
+  {id:'naan',title:'Tandoori Bread · Naan',sub:'',filters:['Breads'],items:[
+    ['Naan','veg',0,40],['Butter Naan','veg',0,50],['Garlic Naan','veg',0,60],['Egg Stuff Naan','egg',1,60],['Chicken Stuff Naan','chicken',1,100]]},
+  {id:'roti',title:'Roti',sub:'',filters:['Breads'],items:[
+    ['Roti','veg',0,30],['Butter Roti','veg',0,40],['Garlic Roti','veg',0,50],['Egg Stuff Roti','egg',1,60],
+    ['Chicken Stuff Roti','chicken',1,80],['Rumali Roti','veg',0,50],['Tandoori Wheat Parotta','veg',0,50]]},
+  {id:'kulcha',title:'Kulcha',sub:'',filters:['Breads'],items:[
+    ['Kulcha','veg',0,40],['Butter Kulcha','veg',0,50],['Egg Stuff Kulcha','egg',1,70],['Chicken Stuff Kulcha','chicken',1,100]]},
+  {id:'beverages',title:'Beverages',sub:'Juices, mocktails, smoothies & shakes',filters:['Beverages'],type:'veg',groups:[
+    {label:'Juices',items:[
+      ['Lemon Juice','veg',0,40],['Lemon Soda','veg',0,50],['Lemon Mint Juice','veg',0,50],['Lemon Mint Soda','veg',0,60]]},
+    {label:'Mocktails',items:[
+      ['Fruit Punch','veg',0,120],['Sunrise Mocktail','veg',0,100],['Virgin Mojito','veg',0,100],['Blue Lagoon','veg',0,120],['Virgin Pinacolada','veg',0,120]]},
+    {label:'Smoothies',items:[
+      ['Banana Smoothie','veg',0,100],['Mango Smoothie','veg',0,100],['Orange Smoothie','veg',0,100]]},
+    {label:'Shakes',items:[
+      ['Banana Milk Shake','veg',0,80],['Chocolate Milk Shake','veg',0,120],['Mango Milk Shake','veg',0,100]]}
+  ]},
 ]
 
 // Flatten all menu items
@@ -212,9 +225,9 @@ MENU.forEach(sec => {
 })
 const itemById = (id: string) => ALL_ITEMS.find(i => i.id === id)
 
-const SIGNATURE_IDS = ['special-chicken-biryani','mutton-biryani','chicken-chukka','chicken-pallipalayam',
-  'chicken-chettinad','pepper-chicken','mutton-chukka','mutton-pepper-fry','madurai-mutton',
-  'vanjaram-fish-fry','prawn-masala','tandoori-chicken']
+const SIGNATURE_IDS = ['chicken-65','chicken-777','bullet-chicken','chilly-chicken',
+  'moru-moru-chicken','wings-chilli','gilma-biriyani','nattukozhi-biryani',
+  'prawn-65','fish-finger','chinthamani-chicken','kerala-fried-chicken']
 const BIRYANI_IDS = MENU.find(s => s.id === 'biryani')!.items!.map(it => String(it[0]).toLowerCase().replace(/[^a-z0-9]+/g, '-'))
 
 const GALLERY = [
@@ -250,8 +263,8 @@ const BRANCHES = [
   {name:'Sundarapuram',area:'Family Dining',addr:'Sundarapuram, Coimbatore, Tamil Nadu — full address to be confirmed',rating:'New branch',hrs:'Open daily · Closes 11:00 PM (to confirm)',map:'https://www.google.com/maps/search/?api=1&query=333%20Family%20Restaurant%2C%20Sundarapuram%2C%20Coimbatore'},
 ]
 
-const FILTERS = ['All','Veg','Chicken','Mutton','Seafood','Egg','Biryani','South Indian','North Indian','Chinese','Tandoor','Desserts','Beverages']
-const PORTIONS = [{n:'Half',m:.6},{n:'Full',m:1},{n:'Family',m:1.8}]
+const FILTERS = ['All','Veg','Chicken','Mutton','Seafood','Egg','Biryani','Tandoor','Chinese','Breads','Beverages']
+const PORTIONS = [{n:'Regular',m:1}]
 const EXTRAS = [{n:'Extra Gravy',p:40},{n:'Onion Raita',p:30},{n:'Boiled Egg',p:20},{n:'Extra Spicy',p:0},{n:'Less Spicy',p:0}]
 const COUPONS: Record<string, {off: number; flat?: boolean; label: string}> = {
   'WELCOME10':{off:.10,label:'10% off'},
@@ -741,7 +754,7 @@ function MenuView({ onAdd, filter, setFilter, search, setSearch }: {
     <>
       <div style={{padding:'48px 0 0'}}>
         <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px'}}>
-          <Eyebrow>150+ Dishes · Veg & Non-Veg</Eyebrow>
+          <Eyebrow>200+ Dishes · Veg & Non-Veg</Eyebrow>
           <h1 style={{fontSize:'clamp(2.1rem,5vw,3.3rem)',margin:'.35em 0 .25em'}}>The Full Menu</h1>
           <p style={{color:'var(--ink-soft)',fontSize:'1.02rem',maxWidth:'44em',marginBottom:22}}>Search any dish, filter by category or diet, and add straight to your cart.</p>
           <div style={{display:'flex',gap:12,alignItems:'center',background:'var(--panel)',border:'1px solid var(--line)',borderRadius:999,padding:'6px 6px 6px 18px',maxWidth:520,marginBottom:20}}>
@@ -1373,14 +1386,13 @@ function CartDrawer({ cart, open, onClose, onNav, onChange, onRemove }: {
 
 // ─── OPTIONS MODAL ────────────────────────────────────────────────────────────
 function OptionsModal({ itemId, onClose, onConfirm }: { itemId: string|null; onClose: () => void; onConfirm: (it: FlatItem, portion: string, pmult: number, extras: {n:string;p:number}[], qty: number) => void }) {
-  const [pIdx, setPIdx] = useState(1)
+  const [pIdx, setPIdx] = useState(0)
   const [extras, setExtras] = useState<Set<number>>(new Set())
   const [qty, setQty] = useState(1)
   const it = itemId ? itemById(itemId) : null
-  useEffect(() => { if (it) { setPIdx(1); setExtras(new Set()); setQty(1) } }, [itemId])
+  useEffect(() => { if (it) { setPIdx(0); setExtras(new Set()); setQty(1) } }, [itemId])
   if (!it) return null
-  const isBiry = it.filters.includes('Biryani') || it.filters.includes('combos')
-  const portions = isBiry ? PORTIONS : PORTIONS.slice(0, 2)
+  const portions = PORTIONS
   const exArr = [...extras].map(i => EXTRAS[i])
   const total = Math.round((it.price * portions[pIdx].m + exArr.reduce((s,e)=>s+e.p,0)) * qty)
   return (
@@ -1394,6 +1406,7 @@ function OptionsModal({ itemId, onClose, onConfirm }: { itemId: string|null; onC
         <div style={{padding:22}}>
           <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4}}><Vind type={it.type} /><h3 style={{fontSize:'1.35rem'}}>{it.name}</h3></div>
           <p style={{color:'var(--ink-soft)',fontSize:'.88rem',marginBottom:18}}>{it.desc ?? autoDesc(it)}</p>
+          {portions.length > 1 && (
           <div style={{marginBottom:16}}>
             <div style={{fontSize:'.72rem',fontWeight:800,letterSpacing:'.1em',textTransform:'uppercase',color:'var(--ink-mute)',marginBottom:9}}>Portion</div>
             <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
@@ -1404,6 +1417,7 @@ function OptionsModal({ itemId, onClose, onConfirm }: { itemId: string|null; onC
               ))}
             </div>
           </div>
+          )}
           <div style={{marginBottom:6}}>
             <div style={{fontSize:'.72rem',fontWeight:800,letterSpacing:'.1em',textTransform:'uppercase',color:'var(--ink-mute)',marginBottom:8}}>Add Extras</div>
             {EXTRAS.map((x, i) => (
