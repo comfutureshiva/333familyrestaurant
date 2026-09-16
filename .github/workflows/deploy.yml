@@ -1,10 +1,9 @@
 name: Deploy 333 site to Hostinger
 
-# Runs on every push to the main branch
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:   # also lets you trigger it manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -25,7 +24,19 @@ jobs:
       - name: Build site
         run: npm run build
 
-      - name: Deploy dist/ to Hostinger public_html via FTP
+      - name: Deploy to top-level public_html
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: /public_html/
+          dangerous-clean-slate: false
+          state-name: .ftp-deploy-sync-state-${{ github.run_id }}.json
+          timeout: 120000
+
+      - name: Deploy to domain public_html
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
