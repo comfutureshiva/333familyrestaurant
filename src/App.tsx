@@ -54,14 +54,11 @@ const DISH_KW: Record<string, string> = {
   drink: 'juice', combo: 'thali', chinese: 'noodles',
 }
 const seedOf = (s: string) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h % 100000 }
-// A keyword photo (varies per item via a stable lock seed) — used where each card should differ.
-const kwPhoto = (type: string, w: number, h: number, seed: string) =>
-  `https://loremflickr.com/${w}/${h}/${DISH_KW[type] ?? 'indian,food'}?lock=${seedOf(seed)}`
-// Best photo for a dish type: a curated Unsplash shot when we have one, else a keyword photo.
-const dishPhoto = (type: string, w = 800, h = 600) =>
-  PHOTO[type]
-    ? `https://images.unsplash.com/photo-${PHOTO[type]}?w=${w}&h=${h}&fit=crop&auto=format`
-    : `https://loremflickr.com/${w}/${h}/${DISH_KW[type] ?? 'indian,food'}`
+// Per-dish photos are disabled (return empty) so every dish shows a clean icon tile
+// instead of random/irrelevant stock images. Real dish photos can be dropped in later.
+const kwPhoto = (_type: string, _w?: number, _h?: number, _seed?: string) => ''
+const dishPhoto = (_type: string, _w = 800, _h = 600) => ''
+void seedOf; void DISH_KW
 
 type MenuSection = {
   id: string; title: string; sub?: string; filters?: string[]
@@ -613,7 +610,7 @@ function HomeView({ onNav, onAdd }: { onNav: (v: ViewKey) => void; onAdd: (id: s
                 onMouseEnter={e=>{const el=e.currentTarget;el.style.transform='translateY(-5px)';el.style.borderColor='var(--line-strong)';el.style.boxShadow='var(--shadow)'}}
                 onMouseLeave={e=>{const el=e.currentTarget;el.style.transform='';el.style.borderColor='var(--line)';el.style.boxShadow=''}}>
                 <div style={{position:'relative',aspectRatio:'1/1',overflow:'hidden'}}>
-                  <img src={kwPhoto(it.type,400,400,it.id)} alt={it.name} loading="lazy" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                  <div style={{width:'100%',height:'100%',background:'linear-gradient(150deg,var(--panel-2),var(--char-3))',display:'grid',placeItems:'center',fontSize:'3rem'}}>{glyph(it.type)}</div>
                   <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(10,7,5,.75),transparent 55%)'}} />
                   <div style={{position:'absolute',inset:'auto 0 0 0',padding:'10px 12px'}}>
                     <div style={{display:'flex',alignItems:'center',gap:6}}><Vind type={it.type} /><h4 style={{fontSize:'.95rem',color:'#f6ecd8'}}>{it.name}</h4></div>
@@ -1408,8 +1405,7 @@ function OptionsModal({ itemId, onClose, onConfirm }: { itemId: string|null; onC
     <div style={{position:'fixed',inset:0,zIndex:110,display:'grid',placeItems:'center',padding:20,background:'rgba(6,4,3,.75)',backdropFilter:'blur(4px)'}} onClick={onClose}>
       <div style={{background:'var(--char-2)',border:'1px solid var(--line-strong)',borderRadius:'var(--r)',width:'min(420px,100%)',overflow:'hidden',boxShadow:'var(--shadow-lg)',animation:'pop .28s cubic-bezier(.2,.8,.2,1)'}} onClick={e=>e.stopPropagation()}>
         <div style={{position:'relative',aspectRatio:'16/9',background:'linear-gradient(150deg,var(--panel-2),var(--char))',display:'grid',placeItems:'center',fontSize:'3rem',overflow:'hidden'}}>
-          <img src={kwPhoto(it.type,600,340,it.id)} alt={it.name} style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover',opacity:.85}} />
-          <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(10,7,5,.8),transparent 60%)'}} />
+          <span aria-hidden="true">{glyph(it.type)}</span>
           <button onClick={onClose} aria-label="Close" style={{position:'absolute',top:12,right:14,fontSize:'1.4rem',cursor:'pointer',border:'none',background:'rgba(0,0,0,.4)',borderRadius:8,padding:'4px 8px',color:'var(--ink)'}}>✕</button>
         </div>
         <div style={{padding:22}}>
