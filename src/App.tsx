@@ -43,8 +43,15 @@ const PHOTO: Record<string, string> = {
   spread:   '1626508035297-0cd27c397d67',
   tray:     '1579783411194-f697db862dcd',
 }
-const photoUrl = (key: string, w = 800, h = 600) =>
-  `https://images.unsplash.com/photo-${PHOTO[key] ?? PHOTO.spread}?w=${w}&h=${h}&fit=crop&auto=format`
+// Brand-colored gradient panels instead of stock photos (no external/irrelevant images).
+// Real photos can replace these later. Tone varies by key for subtle variety.
+const photoUrl = (key = '', _w = 800, _h = 600) => {
+  const pairs = [['5a0f1e','7c1d2b'],['7c1d2b','96263a'],['3a2a12','6f5210'],['5a0f1e','a07c2e'],['201613','5a0f1e']]
+  let h = 0; for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0
+  const [a, b] = pairs[h % pairs.length]
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='40' height='30'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23${a}'/><stop offset='1' stop-color='%23${b}'/></linearGradient></defs><rect width='40' height='30' fill='url(%23g)'/></svg>`
+  return `data:image/svg+xml,${svg}`
+}
 
 // Per-dish photos. Each dish type has a matching keyword so no two sections share one photo.
 // TIP: for the real launch, drop your own dish photos into /public and point these at them.
