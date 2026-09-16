@@ -1,5 +1,36 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import logo from './assets/logo.png'
+import fBiryani from './assets/food/biryani.jpg'
+import fChicken from './assets/food/chicken.jpg'
+import fNattukozhi from './assets/food/nattukozhi.jpg'
+import fKaadai from './assets/food/kaadai.jpg'
+import fMutton from './assets/food/mutton.jpg'
+import fGrill from './assets/food/grill.jpg'
+import fTandoori from './assets/food/tandoori.jpg'
+import fFish from './assets/food/fish.jpg'
+import fPrawn from './assets/food/prawn.jpg'
+import fCrab from './assets/food/crab.jpg'
+import fPaneer from './assets/food/paneer.jpg'
+import fVeg from './assets/food/veg.jpg'
+import fFriedrice from './assets/food/friedrice.jpg'
+import fNoodles from './assets/food/noodles.jpg'
+import fMomos from './assets/food/momos.jpg'
+import fBreads from './assets/food/breads.jpg'
+import fSoup from './assets/food/soup.jpg'
+import fBeverages from './assets/food/beverages.jpg'
+
+// Category food photos keyed by menu section id
+const FOOD: Record<string, string> = {
+  specials:fChicken, soups:fSoup, 'chicken-oilfried':fChicken, 'chicken-boneless':fChicken,
+  nattukozhi:fNattukozhi, kaadai:fKaadai, mutton:fMutton, grilled:fGrill, alfaham:fGrill,
+  tandoori:fTandoori, fish:fFish, prawn:fPrawn, crab:fCrab, gobi:fVeg, mushroom:fVeg,
+  paneer:fPaneer, babycorn:fVeg, biryani:fBiryani, 'nv-friedrice':fFriedrice, 'veg-friedrice':fFriedrice,
+  'nv-noodles':fNoodles, 'veg-noodles':fNoodles, momos:fMomos, parotta:fBreads, naan:fBreads,
+  roti:fBreads, kulcha:fBreads, beverages:fBeverages,
+}
+// Best photo for a dish: veg specials get the paneer shot, else by section.
+const foodPhoto = (sec: string, type?: string): string =>
+  (sec === 'specials' && type === 'veg') ? fPaneer : (FOOD[sec] ?? fChicken)
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
 type ViewKey = 'home' | 'about' | 'menu' | 'signature' | 'gallery' | 'locations' | 'reservation' | 'contact' | 'order' | 'privacy' | 'terms'
@@ -244,22 +275,22 @@ const SIGNATURE_IDS = ['chicken-65','chicken-777','bullet-chicken','chilly-chick
 const BIRYANI_IDS = MENU.find(s => s.id === 'biryani')!.items!.map(it => String(it[0]).toLowerCase().replace(/[^a-z0-9]+/g, '-'))
 
 const GALLERY = [
-  {t:'Special Chicken Biryani',type:'biryani',cat:'Biryani',tall:true,photo:'biryani'},
-  {t:'Mutton Chukka',type:'mutton',cat:'Mutton',tall:false,photo:'mutton'},
-  {t:'Vanjaram Fish Fry',type:'seafood',cat:'Seafood',tall:false,photo:'seafood'},
-  {t:'Tandoori Platter',type:'chicken',cat:'Tandoor',tall:true,photo:'tray'},
-  {t:'Chicken 65',type:'chicken',cat:'Chicken',tall:false,photo:'chicken'},
-  {t:'Crab Masala',type:'seafood',cat:'Seafood',tall:true,photo:'seafood'},
-  {t:'Prawn Masala',type:'seafood',cat:'Seafood',tall:false,photo:'spread'},
-  {t:'Mutton Biryani',type:'biryani',cat:'Biryani',tall:true,photo:'biryani'},
-  {t:'Chilli Chicken',type:'chinese',cat:'Chinese',tall:false,photo:'chicken'},
-  {t:'Chicken Chettinad',type:'chicken',cat:'Chicken',tall:false,photo:'chicken'},
-  {t:'Grilled Chicken',type:'chicken',cat:'Tandoor',tall:true,photo:'tray'},
-  {t:'Schezwan Noodles',type:'chinese',cat:'Chinese',tall:false,photo:'spread'},
-  {t:'Pallipalayam Chicken',type:'chicken',cat:'Chicken',tall:true,photo:'chicken'},
-  {t:'Fish Curry',type:'seafood',cat:'Seafood',tall:false,photo:'seafood'},
-  {t:'Dining Hall',type:'combo',cat:'Restaurant',tall:false,photo:'interior'},
-  {t:'The Live Grill',type:'chicken',cat:'Restaurant',tall:true,photo:'fancy'},
+  {t:'Chicken Biryani',type:'biryani',cat:'Biryani',tall:true,food:fBiryani},
+  {t:'Mutton Chukka',type:'mutton',cat:'Mutton',tall:false,food:fMutton},
+  {t:'Vanjaram Fish Fry',type:'seafood',cat:'Seafood',tall:false,food:fFish},
+  {t:'Tandoori Chicken',type:'chicken',cat:'Tandoor',tall:true,food:fTandoori},
+  {t:'Chicken 65',type:'chicken',cat:'Chicken',tall:false,food:fChicken},
+  {t:'Crab Masala',type:'seafood',cat:'Seafood',tall:true,food:fCrab},
+  {t:'Prawn Masala',type:'seafood',cat:'Seafood',tall:false,food:fPrawn},
+  {t:'Grilled Chicken (Alfaham)',type:'chicken',cat:'Tandoor',tall:true,food:fGrill},
+  {t:'Hakka Noodles',type:'chinese',cat:'Chinese',tall:false,food:fNoodles},
+  {t:'Chicken Fried Rice',type:'chinese',cat:'Chinese',tall:false,food:fFriedrice},
+  {t:'Paneer Butter Masala',type:'veg',cat:'Veg',tall:false,food:fPaneer},
+  {t:'Gobi 65 & Baby Corn',type:'veg',cat:'Veg',tall:true,food:fVeg},
+  {t:'Chicken Momos',type:'chicken',cat:'Chinese',tall:false,food:fMomos},
+  {t:'Nattu Kozhi Pepper Fry',type:'chicken',cat:'Chicken',tall:true,food:fNattukozhi},
+  {t:'Quail (Kaadai) Roast',type:'chicken',cat:'Chicken',tall:false,food:fKaadai},
+  {t:'Mutton Pepper Soup',type:'mutton',cat:'Soups',tall:false,food:fSoup},
 ]
 
 const REVIEWS = [
@@ -384,11 +415,11 @@ function LinkBtn({ children, href, variant='gold', size='sm', style: s }: {
     </a>
   )
 }
-function DishCard({ type, photo, ribbon, children }: {
-  type: string; photo?: string; ribbon?: string; children: React.ReactNode
+function DishCard({ type, photo, ribbon, children, src: srcProp }: {
+  type: string; photo?: string; ribbon?: string; children: React.ReactNode; src?: string
 }) {
   const photoKey = (photo ?? type) as string
-  const src = PHOTO[photoKey] ? photoUrl(photoKey, 600, 450) : dishPhoto(type, 600, 450)
+  const src = srcProp ?? (PHOTO[photoKey] ? photoUrl(photoKey, 600, 450) : dishPhoto(type, 600, 450))
   return (
     <div style={{
       background:'var(--panel)',border:'1px solid var(--line)',borderRadius:'var(--r)',
@@ -540,7 +571,7 @@ function HomeView({ onNav, onAdd }: { onNav: (v: ViewKey) => void; onAdd: (id: s
       {/* HERO */}
       <section style={{position:'relative',minHeight:'clamp(560px,90vh,860px)',display:'flex',alignItems:'center',overflow:'hidden',borderBottom:'1px solid var(--line)',background:'linear-gradient(120deg,#150f0d 30%,#3a1420 120%)'}}>
         <div style={{position:'absolute',inset:0}}>
-          <img src={photoUrl('hero',1600,900)} alt="" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} />
+          <img src={fBiryani} alt="" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} />
           <div style={{position:'absolute',inset:0,background:'linear-gradient(100deg,rgba(10,7,5,.96) 38%,rgba(10,7,5,.72) 60%,rgba(90,15,30,.45))' }} />
         </div>
         <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px',position:'relative',zIndex:2,width:'100%'}}>
@@ -585,7 +616,7 @@ function HomeView({ onNav, onAdd }: { onNav: (v: ViewKey) => void; onAdd: (id: s
           </div>
           <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(260px,1fr))',gap:22}}>
             {sig.map((it, i) => (
-              <DishCard key={it.id} type={it.type} photo={photoIds[it.type]} ribbon={i===0?'Most Loved':i===4?"Chef's Special":undefined}>
+              <DishCard key={it.id} type={it.type} src={foodPhoto(it.sec, it.type)} ribbon={i===0?'Most Loved':i===4?"Chef's Special":undefined}>
                 <div style={{padding:'16px 18px 18px',display:'flex',flexDirection:'column',gap:8,flex:1}}>
                   <div style={{display:'flex',alignItems:'center',gap:8}}><Vind type={it.type} /><h3 style={{fontSize:'1.18rem'}}>{it.name}</h3></div>
                   <p style={{color:'var(--ink-soft)',fontSize:'.88rem',flex:1}}>{it.desc ?? autoDesc(it)}</p>
@@ -617,7 +648,7 @@ function HomeView({ onNav, onAdd }: { onNav: (v: ViewKey) => void; onAdd: (id: s
                 onMouseEnter={e=>{const el=e.currentTarget;el.style.transform='translateY(-5px)';el.style.borderColor='var(--line-strong)';el.style.boxShadow='var(--shadow)'}}
                 onMouseLeave={e=>{const el=e.currentTarget;el.style.transform='';el.style.borderColor='var(--line)';el.style.boxShadow=''}}>
                 <div style={{position:'relative',aspectRatio:'1/1',overflow:'hidden'}}>
-                  <div style={{width:'100%',height:'100%',background:'linear-gradient(150deg,var(--panel-2),var(--char-3))',display:'grid',placeItems:'center',fontSize:'3rem'}}>{glyph(it.type)}</div>
+                  <img src={foodPhoto(it.sec, it.type)} alt={it.name} loading="lazy" style={{width:'100%',height:'100%',objectFit:'cover'}} />
                   <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(10,7,5,.75),transparent 55%)'}} />
                   <div style={{position:'absolute',inset:'auto 0 0 0',padding:'10px 12px'}}>
                     <div style={{display:'flex',alignItems:'center',gap:6}}><Vind type={it.type} /><h4 style={{fontSize:'.95rem',color:'#f6ecd8'}}>{it.name}</h4></div>
@@ -707,7 +738,7 @@ function HomeView({ onNav, onAdd }: { onNav: (v: ViewKey) => void; onAdd: (id: s
                 onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor='var(--gold)';el.style.transform='scale(1.01)'}}
                 onMouseLeave={e=>{const el=e.currentTarget;el.style.borderColor='var(--line)';el.style.transform=''}}>
                 <div style={{position:'relative',aspectRatio: g.tall ? '3/4' : '4/3',overflow:'hidden'}}>
-                  <img src={photoUrl(g.photo, 500, g.tall ? 670 : 500)} alt={g.t} loading="lazy" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                  <img src={g.food} alt={g.t} loading="lazy" style={{width:'100%',height:'100%',objectFit:'cover'}} />
                   <div style={{position:'absolute',inset:'auto 0 0 0',padding:'26px 14px 12px',fontWeight:700,fontSize:'.88rem',background:'linear-gradient(transparent,rgba(0,0,0,.72))',color:'#f6ecd8'}}>{g.t}</div>
                 </div>
               </div>
@@ -827,6 +858,7 @@ function MenuList({ items, onAdd }: { items: FlatItem[]; onAdd: (id: string) => 
     <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(320px,1fr))',gap:'0 32px'}}>
       {items.map(it => (
         <div key={it.id} style={{display:'flex',gap:12,alignItems:'center',padding:'13px 4px',borderBottom:'1px dashed var(--line)'}}>
+          <img src={foodPhoto(it.sec, it.type)} alt="" loading="lazy" style={{width:58,height:58,borderRadius:10,objectFit:'cover',flexShrink:0,border:'1px solid var(--line)'}} />
           <Vind type={it.type} />
           <div style={{flex:1,minWidth:0}}>
             <div style={{display:'flex',alignItems:'center',gap:7,fontWeight:700,fontSize:'.98rem'}}>
@@ -852,7 +884,7 @@ function GalleryView() {
   const [galFilter, setGalFilter] = useState('All')
   const [lbOpen, setLbOpen] = useState(false)
   const [lbI, setLbI] = useState(0)
-  const cats = ['All','Biryani','Chicken','Mutton','Seafood','Chinese','Tandoor','Restaurant']
+  const cats = ['All','Biryani','Chicken','Mutton','Seafood','Veg','Chinese','Tandoor','Soups']
   const filtered = GALLERY.map((g, i) => ({...g, i})).filter(g => galFilter === 'All' || g.cat === galFilter)
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -892,7 +924,7 @@ function GalleryView() {
               onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor='var(--gold)';el.style.transform='scale(1.01)'}}
               onMouseLeave={e=>{const el=e.currentTarget;el.style.borderColor='var(--line)';el.style.transform=''}}>
               <div style={{position:'relative',aspectRatio:g.tall?'3/4':'4/3',overflow:'hidden'}}>
-                <img src={photoUrl(g.photo,500,g.tall?670:500)} alt={g.t} loading="lazy" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                <img src={g.food} alt={g.t} loading="lazy" style={{width:'100%',height:'100%',objectFit:'cover'}} />
                 <div style={{position:'absolute',inset:'auto 0 0 0',padding:'24px 14px 12px',fontWeight:700,fontSize:'.88rem',color:'#f6ecd8',background:'linear-gradient(transparent,rgba(0,0,0,.7))'}}>{g.t}</div>
               </div>
             </div>
@@ -903,7 +935,7 @@ function GalleryView() {
         <div style={{position:'fixed',inset:0,zIndex:120,background:'rgba(6,4,3,.95)',display:'grid',placeItems:'center',padding:24}} onClick={() => setLbOpen(false)}>
           <div style={{maxWidth:640,width:'100%'}} onClick={e => e.stopPropagation()}>
             <div style={{borderRadius:'var(--r)',overflow:'hidden',border:'1px solid var(--line-strong)',position:'relative',aspectRatio:'4/3'}}>
-              <img src={photoUrl(filtered[lbI].photo, 800, 600)} alt={filtered[lbI].t} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+              <img src={filtered[lbI].food} alt={filtered[lbI].t} style={{width:'100%',height:'100%',objectFit:'cover'}} />
             </div>
             <p style={{textAlign:'center',marginTop:14,fontFamily:'var(--serif)',fontSize:'1.35rem',color:'var(--gold-ink)'}}>{filtered[lbI].t}</p>
           </div>
@@ -1206,7 +1238,7 @@ function SignatureView({ onNav, onAdd }: { onNav: (v: ViewKey) => void; onAdd: (
       <div style={{maxWidth:1200,margin:'0 auto',padding:'48px 24px 88px'}}>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(260px,1fr))',gap:22}}>
           {items.map((it, i) => (
-            <DishCard key={it.id} type={it.type} photo={photoIds[it.type]} ribbon={i===0?'Most Loved':undefined}>
+            <DishCard key={it.id} type={it.type} src={foodPhoto(it.sec, it.type)} ribbon={i===0?'Most Loved':undefined}>
               <div style={{padding:'16px 18px 18px',display:'flex',flexDirection:'column',gap:8,flex:1}}>
                 <div style={{display:'flex',alignItems:'center',gap:8}}><Vind type={it.type} /><h3 style={{fontSize:'1.18rem'}}>{it.name}</h3></div>
                 <p style={{color:'var(--ink-soft)',fontSize:'.88rem',flex:1}}>{it.desc ?? autoDesc(it)}</p>
@@ -1412,7 +1444,8 @@ function OptionsModal({ itemId, onClose, onConfirm }: { itemId: string|null; onC
     <div style={{position:'fixed',inset:0,zIndex:110,display:'grid',placeItems:'center',padding:20,background:'rgba(6,4,3,.75)',backdropFilter:'blur(4px)'}} onClick={onClose}>
       <div style={{background:'var(--char-2)',border:'1px solid var(--line-strong)',borderRadius:'var(--r)',width:'min(420px,100%)',overflow:'hidden',boxShadow:'var(--shadow-lg)',animation:'pop .28s cubic-bezier(.2,.8,.2,1)'}} onClick={e=>e.stopPropagation()}>
         <div style={{position:'relative',aspectRatio:'16/9',background:'linear-gradient(150deg,var(--panel-2),var(--char))',display:'grid',placeItems:'center',fontSize:'3rem',overflow:'hidden'}}>
-          <span aria-hidden="true">{glyph(it.type)}</span>
+          <img src={foodPhoto(it.sec, it.type)} alt={it.name} style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover'}} />
+          <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(10,7,5,.55),transparent 55%)'}} />
           <button onClick={onClose} aria-label="Close" style={{position:'absolute',top:12,right:14,fontSize:'1.4rem',cursor:'pointer',border:'none',background:'rgba(0,0,0,.4)',borderRadius:8,padding:'4px 8px',color:'var(--ink)'}}>✕</button>
         </div>
         <div style={{padding:22}}>
