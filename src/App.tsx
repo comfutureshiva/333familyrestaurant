@@ -71,6 +71,15 @@ type MenuSection = {
 }
 
 const MENU: MenuSection[] = [
+  {id:'specials',title:'333 Specials',sub:'Our signature house creations',filters:[],groups:[
+    {label:'Non-Veg Specials',items:[
+      ['Texas Chicken','chicken',2,350,'House signature'],['Chicken Popcorn','chicken',2,250],
+      ['Navaratna Chicken','chicken',2,320],['Kashmiri Chicken with Omelette Roll','chicken',2,350],
+      ['Injipuli Chicken','chicken',3,200],['Japan Chicken','chicken',2,300],['Maharaja Chicken','chicken',2,150]]},
+    {label:'Veg Specials',items:[
+      ['Veg Popcorn','veg',1,200],['Paneer 50/50','veg',1,250],['Paneer Dice Cube','veg',1,300],
+      ['Mushroom Chilli Honey','veg',2,200],['Paneer Finger','veg',1,200]]}
+  ]},
   {id:'soups',title:'Soups',sub:'Slow-simmered, warming starts',filters:[],items:[
     ['Veg Soup','veg',0,50],['Mushroom Soup','veg',0,70],['Chicken Soup','chicken',0,70],
     ['Nattukozhi Soup','chicken',2,80,'Country chicken, slow-boiled'],['Mutton Leg Soup','mutton',2,70],
