@@ -38,29 +38,27 @@ html, body, #root {
 }
 
 [data-theme="light"] {
-  --char: #f6eede;
-  --char-2: #f1e6d3;
-  --char-3: #ecdfc8;
+  --char: #ffffff;
+  --char-2: #ffffff;
+  --char-3: #f4f4f4;
   --ink: #2a1b12;
   --ink-soft: #5f4a34;
   --ink-mute: #6f5a40; /* WCAG AA: ≥4.5:1 on light panels */
-  --paper: #fbf5ea;   /* clean, warm cream page */
-  --panel: #fffefb;   /* near-white cards */
-  --panel-2: #f5ecdd;
-  --line: rgba(122,29,43,.16);
-  --line-strong: rgba(122,29,43,.32);
+  --paper: #ffffff;   /* pure white page */
+  --panel: #ffffff;   /* white cards */
+  --panel-2: #f6f6f6; /* faint grey for subtle separation */
+  --line: rgba(20,15,10,.12);
+  --line-strong: rgba(20,15,10,.22);
   /* gold stays BRIGHT where it is a background/button (dark text on it passes) */
   --gold-soft: #d9b871;
   --gold: #c9a24b;
   /* separate dark gold ONLY for gold-coloured text on the light page (AA ≥ 6:1) */
   --gold-ink: #6f5210;
-  --shadow: 0 22px 50px -28px rgba(90,15,30,.20);
-  --shadow-lg: 0 34px 70px -30px rgba(90,15,30,.24);
+  --shadow: 0 22px 50px -28px rgba(0,0,0,.14);
+  --shadow-lg: 0 34px 70px -30px rgba(0,0,0,.18);
 }
 [data-theme="light"] body::before {
-  background:
-    radial-gradient(1000px 620px at 84% -12%, rgba(124,29,43,.07), transparent 55%),
-    radial-gradient(760px 520px at -6% 12%, rgba(201,162,75,.10), transparent 52%);
+  background: none;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -97,9 +95,7 @@ body::before {
     radial-gradient(600px 500px at 50% 110%, rgba(201,162,75,.06), transparent 60%);
 }
 [data-theme="light"] body::before {
-  background:
-    radial-gradient(900px 600px at 85% -12%, rgba(124,29,43,.08), transparent 55%),
-    radial-gradient(700px 500px at -5% 12%, rgba(201,162,75,.12), transparent 52%);
+  background: none;
 }
 
 /* scrollbar */
