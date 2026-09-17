@@ -164,3 +164,9 @@ body::before {
   .desk-nav { display: none !important; }
   .mobile-ham { display: grid !important; }
 }
+
+/* feedback page: stack the form under the reviews on small screens */
+@media (max-width: 760px) {
+  .fb-grid { grid-template-columns: 1fr !important; }
+  .fb-grid > div:first-child { position: static !important; }
+}

@@ -33,7 +33,7 @@ const foodPhoto = (sec: string, type?: string): string =>
   (sec === 'specials' && type === 'veg') ? fPaneer : (FOOD[sec] ?? fChicken)
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
-type ViewKey = 'home' | 'about' | 'menu' | 'signature' | 'gallery' | 'locations' | 'reservation' | 'contact' | 'order' | 'privacy' | 'terms'
+type ViewKey = 'home' | 'about' | 'menu' | 'signature' | 'gallery' | 'locations' | 'reservation' | 'contact' | 'order' | 'privacy' | 'terms' | 'feedback'
 type DishType = 'veg' | 'chicken' | 'mutton' | 'seafood' | 'egg' | 'biryani' | 'bread' | 'tandoor' | 'soup' | 'dessert' | 'drink' | 'combo' | 'chinese'
 
 interface FlatItem {
@@ -1488,10 +1488,87 @@ function Toast({ msg }: { msg: {title:string;sub:string;visible:boolean} }) {
 }
 
 // ─── HEADER ───────────────────────────────────────────────────────────────────
+type Review = { n: string; r: number; t: string; b?: string; when?: number; mine?: boolean }
+function Stars({ n, size = 16 }: { n: number; size?: number }) {
+  return <span aria-label={`${n} out of 5`} style={{color:'#e8a13a',fontSize:size,letterSpacing:'1px',lineHeight:1}}>{'★'.repeat(n)}<span style={{color:'var(--line-strong)'}}>{'★'.repeat(5-n)}</span></span>
+}
+function FeedbackView({ onNav }: { onNav: (v: ViewKey) => void }) {
+  const [reviews, setReviews] = useState<Review[]>(REVIEWS as Review[])
+  const [mine, setMine] = useState<Review[]>([])
+  const [rating, setRating] = useState(0)
+  const [hover, setHover] = useState(0)
+  const [name, setName] = useState('')
+  const [comment, setComment] = useState('')
+  const [sent, setSent] = useState(false)
+  useEffect(() => {
+    fetch('feedback.json').then(r => r.ok ? r.json() : null).then(d => { if (Array.isArray(d) && d.length) setReviews(d) }).catch(() => {})
+    try { const m = JSON.parse(localStorage.getItem('fb333') || '[]'); if (Array.isArray(m)) setMine(m) } catch { /* ignore */ }
+  }, [])
+  const all: Review[] = [...mine, ...reviews]
+  const avg = all.length ? (all.reduce((s, r) => s + (r.r || 5), 0) / all.length) : 5
+  const submit = () => {
+    if (!rating) return
+    const entry: Review = { n: name.trim() || 'Guest', r: rating, t: comment.trim(), b: 'Website · just now', when: Date.now(), mine: true }
+    try { const m = [entry, ...mine].slice(0, 20); localStorage.setItem('fb333', JSON.stringify(m)); setMine(m) } catch { /* ignore */ }
+    const msg = `Hi ${BRAND}, here is my feedback:\n\nRating: ${'★'.repeat(rating)}${'☆'.repeat(5 - rating)} (${rating}/5)\n` +
+      (comment.trim() ? `Comment: ${comment.trim()}\n` : '') + (name.trim() ? `Name: ${name.trim()}` : '')
+    if (WHATSAPP_NUMBER) window.open(waLink(msg), '_blank', 'noopener')
+    setSent(true); setRating(0); setHover(0); setName(''); setComment('')
+  }
+  return (
+    <>
+      <PageHero title="Customer Feedback" sub="See what our guests say — and share your own experience in one tap." crumb="Feedback" onNav={onNav} />
+      <div style={{maxWidth:1100,margin:'0 auto',padding:'34px 24px 80px'}}>
+        <div style={{display:'grid',gridTemplateColumns:'minmax(280px,360px) 1fr',gap:32,alignItems:'start'}} className="fb-grid">
+          {/* Leave feedback */}
+          <div style={{background:'var(--panel)',border:'1px solid var(--line-strong)',borderRadius:'var(--r)',padding:'22px',position:'sticky',top:90}}>
+            <h3 style={{fontSize:'1.3rem',marginBottom:4}}>Rate your visit</h3>
+            <p style={{color:'var(--ink-soft)',fontSize:'.86rem',marginBottom:16}}>Tap a star — that's it. Add a comment only if you'd like.</p>
+            <div style={{display:'flex',gap:6,marginBottom:16}} onMouseLeave={() => setHover(0)}>
+              {[1,2,3,4,5].map(s => (
+                <button key={s} onClick={() => setRating(s)} onMouseEnter={() => setHover(s)} aria-label={`${s} star${s>1?'s':''}`}
+                  style={{background:'none',border:'none',cursor:'pointer',fontSize:'2rem',lineHeight:1,padding:0,color:(hover||rating)>=s?'#e8a13a':'var(--line-strong)',transition:'.12s'}}>★</button>
+              ))}
+            </div>
+            <input value={name} onChange={e => setName(e.target.value)} placeholder="Your name (optional)" aria-label="Your name"
+              style={{width:'100%',background:'var(--paper)',border:'1px solid var(--line)',borderRadius:9,padding:'10px 12px',color:'var(--ink)',fontSize:'.9rem',outline:'none',fontFamily:'inherit',marginBottom:10}} />
+            <textarea value={comment} onChange={e => setComment(e.target.value)} placeholder="Add a comment (optional)" aria-label="Comment" rows={3}
+              style={{width:'100%',background:'var(--paper)',border:'1px solid var(--line)',borderRadius:9,padding:'10px 12px',color:'var(--ink)',fontSize:'.9rem',outline:'none',fontFamily:'inherit',resize:'vertical',marginBottom:12}} />
+            <Btn block onClick={submit} style={rating?undefined:{opacity:.5,cursor:'not-allowed'}}>
+              {WHATSAPP_NUMBER ? '💬 Send Feedback' : 'Send Feedback'}
+            </Btn>
+            {sent && <p role="status" style={{color:'var(--leaf)',fontWeight:700,fontSize:'.82rem',marginTop:10,textAlign:'center'}}>Thank you! Your feedback was sent 🙏</p>}
+            <p style={{fontSize:'.7rem',color:'var(--ink-mute)',marginTop:10,textAlign:'center'}}>Sends to us on WhatsApp. Your review shows below for you right away.</p>
+          </div>
+          {/* Reviews list */}
+          <div>
+            <div style={{display:'flex',alignItems:'center',gap:14,marginBottom:18,flexWrap:'wrap'}}>
+              <span style={{fontFamily:'var(--serif)',fontSize:'2.4rem',fontWeight:700,color:'var(--gold-ink)',lineHeight:1}}>{avg.toFixed(1)}</span>
+              <div><Stars n={Math.round(avg)} size={18} /><div style={{color:'var(--ink-mute)',fontSize:'.8rem',marginTop:3}}>{all.length} review{all.length!==1?'s':''}</div></div>
+            </div>
+            <div style={{display:'flex',flexDirection:'column',gap:14}}>
+              {all.map((r, i) => (
+                <div key={i} style={{background:'var(--panel)',border:'1px solid var(--line)',borderRadius:'var(--r-sm)',padding:'16px 18px'}}>
+                  <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10,marginBottom:6}}>
+                    <span style={{fontWeight:700}}>{r.n}{r.mine && <span style={{marginLeft:8,fontSize:'.66rem',fontWeight:800,letterSpacing:'.08em',textTransform:'uppercase',color:'var(--gold-ink)',border:'1px solid var(--line-strong)',borderRadius:20,padding:'2px 8px'}}>You · pending</span>}</span>
+                    <Stars n={r.r} />
+                  </div>
+                  {r.t && <p style={{color:'var(--ink-soft)',fontSize:'.92rem',lineHeight:1.55}}>{r.t}</p>}
+                  {r.b && <p style={{color:'var(--ink-mute)',fontSize:'.75rem',marginTop:6}}>{r.b}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
 const NAV_LINKS: {label: string; view: ViewKey}[] = [
   {label:'Home',view:'home'},{label:'About',view:'about'},{label:'Menu',view:'menu'},
   {label:'Signature',view:'signature'},{label:'Gallery',view:'gallery'},
-  {label:'Locations',view:'locations'},{label:'Reserve',view:'reservation'},{label:'Contact',view:'contact'},
+  {label:'Locations',view:'locations'},{label:'Reserve',view:'reservation'},
+  {label:'Feedback',view:'feedback'},{label:'Contact',view:'contact'},
 ]
 function Header({ currentView, cartCount: count, onNav, theme, onToggleTheme, onOpenCart }: {
   currentView: ViewKey; cartCount: number; onNav: (v: ViewKey) => void
@@ -1711,6 +1788,7 @@ export default function App() {
       case 'locations': return <LocationsView onNav={navTo} />
       case 'reservation': return <ReservationView onNav={navTo} />
       case 'contact': return <ContactView onNav={navTo} />
+      case 'feedback': return <FeedbackView onNav={navTo} />
       case 'order': return <OrderView cart={cart} onAdd={openOptions} onOpenCart={() => setDrawerOpen(true)} filter={filter} setFilter={setFilter} search={search} setSearch={setSearch} />
       case 'privacy': return <PolicyView type="privacy" onNav={navTo} />
       case 'terms': return <PolicyView type="terms" onNav={navTo} />
