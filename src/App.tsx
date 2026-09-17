@@ -310,11 +310,6 @@ const BRANCHES = [
 const FILTERS = ['All','Veg','Chicken','Mutton','Seafood','Egg','Biryani','Tandoor','Chinese','Breads','Beverages']
 const PORTIONS = [{n:'Regular',m:1}]
 const EXTRAS = [{n:'Extra Gravy',p:40},{n:'Onion Raita',p:30},{n:'Boiled Egg',p:20},{n:'Extra Spicy',p:0},{n:'Less Spicy',p:0}]
-const COUPONS: Record<string, {off: number; flat?: boolean; label: string}> = {
-  'WELCOME10':{off:.10,label:'10% off'},
-  'BIRYANI50':{off:50,flat:true,label:'₹50 off'},
-  'FEAST15':{off:.15,label:'15% off'},
-}
 const DESC_BITS: Record<string, string[]> = {
   chicken:['Marinated overnight, tossed with curry leaves and shallots.','Slow-roasted in freshly ground Chettinad masala.','Fiery, glossy and packed with pepper heat.'],
   mutton:['Tender cuts dry-roasted with black pepper and coconut.','Cooked low and slow until the masala clings to the bone.','Madurai-style heat with a deep, layered finish.'],
@@ -1295,24 +1290,13 @@ function CartDrawer({ cart, open, onClose, onNav, onChange, onRemove }: {
   onChange: (key: string, d: number) => void; onRemove: (key: string) => void
 }) {
   const [mode, setMode] = useState<'delivery'|'pickup'>('delivery')
-  const [couponInput, setCouponInput] = useState('')
-  const [coupon, setCoupon] = useState<string|null>(null)
-  const [couponMsg, setCouponMsg] = useState<{ok:boolean;text:string}|null>(null)
   const [pincode, setPincode] = useState('')
   const [orderErr, setOrderErr] = useState<string|null>(null)
   const pinOk = /^641\d{3}$/.test(pincode.trim())
   const sub = cartSubtotal(cart)
-  const couponData = coupon ? COUPONS[coupon] : null
-  const disc = couponData ? (couponData.flat ? Math.min(couponData.off, sub) : Math.round(sub * couponData.off)) : 0
-  const afterDisc = sub - disc
-  const delivery = mode === 'delivery' ? (afterDisc >= 499 || afterDisc === 0 ? 0 : 40) : 0
-  const gst = Math.round(afterDisc * 0.05)
-  const grand = afterDisc + delivery + gst
-  const applyCoupon = () => {
-    const v = couponInput.trim().toUpperCase()
-    if (COUPONS[v]) { setCoupon(v); setCouponMsg({ok:true,text:`${COUPONS[v].label} applied 🎉`}) }
-    else { setCoupon(null); setCouponMsg({ok:false,text:'Invalid code — try WELCOME10'}) }
-  }
+  const delivery = mode === 'delivery' ? (sub >= 499 || sub === 0 ? 0 : 40) : 0
+  const gst = Math.round(sub * 0.05)
+  const grand = sub + delivery + gst
   const checkout = () => {
     if (!cart.length) return
     if (mode === 'delivery') {
@@ -1333,7 +1317,6 @@ function CartDrawer({ cart, open, onClose, onNav, onChange, onRemove }: {
       `Hi ${BRAND}, I'd like to place an order (${mode === 'delivery' ? 'Delivery' : 'Pickup'}).\n\n` +
       `${lines}\n\n` +
       `Subtotal: ${money(sub)}\n` +
-      (disc > 0 ? `Discount${coupon ? ` (${coupon})` : ''}: -${money(disc)}\n` : '') +
       `GST (5%): ${money(gst)}\n` +
       `${mode === 'delivery' ? 'Delivery' : 'Pickup'}: ${delivery ? money(delivery) : 'FREE'}\n` +
       (mode === 'delivery' ? `Delivery pincode: ${pincode.trim()}\n` : '') +
@@ -1401,15 +1384,8 @@ function CartDrawer({ cart, open, onClose, onNav, onChange, onRemove }: {
                     : <span style={{fontSize:'.7rem',color:'var(--ink-mute)'}}>We deliver within Coimbatore only.</span>}
               </div>
             )}
-            <div style={{display:'flex',gap:8}}>
-              <input value={couponInput} onChange={e=>setCouponInput(e.target.value)} placeholder="Coupon code" style={{flex:1,background:'var(--panel)',border:'1px solid var(--line)',borderRadius:8,padding:'9px 11px',color:'var(--ink)',fontSize:'.84rem',outline:'none',textTransform:'uppercase',fontFamily:'inherit'}} />
-              <Btn variant="outline" size="sm" onClick={applyCoupon}>Apply</Btn>
-            </div>
-            {couponMsg && <span style={{fontSize:'.74rem',fontWeight:700,color:couponMsg.ok?'var(--leaf)':'#e8836f'}}>{couponMsg.text}</span>}
-            <span style={{fontSize:'.7rem',color:'var(--ink-mute)'}}>Try WELCOME10 · BIRYANI50 · FEAST15</span>
             <div style={{display:'flex',flexDirection:'column',gap:5,fontSize:'.86rem'}}>
               <div style={{display:'flex',justifyContent:'space-between',color:'var(--ink-soft)'}}><span>Subtotal</span><span style={{fontVariantNumeric:'tabular-nums'}}>{money(sub)}</span></div>
-              {disc > 0 && <div style={{display:'flex',justifyContent:'space-between',color:'var(--leaf)'}}><span>Discount</span><span style={{fontVariantNumeric:'tabular-nums'}}>−{money(disc)}</span></div>}
               <div style={{display:'flex',justifyContent:'space-between',color:'var(--ink-soft)'}}><span>GST (5%)</span><span style={{fontVariantNumeric:'tabular-nums'}}>{money(gst)}</span></div>
               <div style={{display:'flex',justifyContent:'space-between',color:'var(--ink-soft)'}}><span>{mode==='delivery'?'Delivery':'Pickup'}</span><span style={{fontVariantNumeric:'tabular-nums'}}>{delivery?money(delivery):'FREE'}</span></div>
               <div style={{display:'flex',justifyContent:'space-between',borderTop:'1px solid var(--line)',paddingTop:8,marginTop:2,fontFamily:'var(--serif)',fontSize:'1.18rem',fontWeight:600}}>
