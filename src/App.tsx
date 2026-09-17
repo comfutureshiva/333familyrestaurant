@@ -1688,7 +1688,16 @@ export default function App() {
     setView(v)
     window.scrollTo({top:0,behavior:'instant' as ScrollBehavior})
   }, [])
-  const openOptions = useCallback((id: string) => { setModalItemId(id) }, [])
+  const openOptions = useCallback((id: string) => {
+    const it = itemById(id); if (!it) return
+    const key = it.id + '|Regular|'
+    setCart(prev => {
+      const f = prev.find(c => c.key === key)
+      if (f) return prev.map(c => c.key===key ? {...c,qty:c.qty+1} : c)
+      return [...prev, {key,id:it.id,name:it.name,type:it.type,portion:'Regular',pmult:1,base:it.price,extras:[],qty:1}]
+    })
+    showToast(it.name, 'Added to your cart')
+  }, [showToast])
   const addToCart = useCallback((it: FlatItem, portion: string, pmult: number, extras: {n:string;p:number}[], qty: number) => {
     const exKey = extras.map(e=>e.n).sort().join(',')
     const key = it.id + '|' + portion + '|' + exKey
