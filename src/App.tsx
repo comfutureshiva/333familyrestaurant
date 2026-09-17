@@ -789,6 +789,7 @@ function MenuView({ onAdd, filter, setFilter, search, setSearch }: {
     return it.filters.includes(filter)
   }, [filter, search])
   const visibleSecs = MENU.map(sec => ({ sec, items: ALL_ITEMS.filter(i => i.sec === sec.id && itemMatches(i)) })).filter(({items}) => items.length)
+  const shownCount = visibleSecs.reduce((n, {items}) => n + items.length, 0)
   return (
     <>
       <div style={{padding:'48px 0 0'}}>
@@ -796,25 +797,34 @@ function MenuView({ onAdd, filter, setFilter, search, setSearch }: {
           <Eyebrow>200+ Dishes · Veg & Non-Veg</Eyebrow>
           <h1 style={{fontSize:'clamp(2.1rem,5vw,3.3rem)',margin:'.35em 0 .25em'}}>The Full Menu</h1>
           <p style={{color:'var(--ink-soft)',fontSize:'1.02rem',maxWidth:'44em',marginBottom:22}}>Search any dish, filter by category or diet, and add straight to your cart.</p>
-          <div style={{display:'flex',gap:12,alignItems:'center',background:'var(--panel)',border:'1px solid var(--line)',borderRadius:999,padding:'6px 6px 6px 18px',maxWidth:520,marginBottom:20}}>
+        </div>
+      </div>
+      <div style={{position:'sticky',top:68,zIndex:30,background:'color-mix(in oklab,var(--paper) 94%,transparent)',backdropFilter:'blur(10px)',borderTop:'1px solid var(--line)',borderBottom:'1px solid var(--line)',padding:'11px 0'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px',display:'flex',flexDirection:'column',gap:10}}>
+          <div style={{display:'flex',gap:10,alignItems:'center',background:'var(--panel)',border:'1px solid var(--line-strong)',borderRadius:999,padding:'5px 6px 5px 16px'}}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold-soft)" strokeWidth="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search biryani, chukka, prawn, paneer…" style={{flex:1,background:'none',border:'none',color:'var(--ink)',fontSize:'1rem',padding:'10px 0',outline:'none',fontFamily:'inherit'}} />
-            {search && <button onClick={() => setSearch('')} style={{padding:'6px 12px',borderRadius:999,border:'1px solid var(--line)',fontSize:'.8rem',color:'var(--ink-mute)',cursor:'pointer'}}>Clear</button>}
+            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search dishes — biryani, chukka, prawn, paneer…" aria-label="Search the menu" style={{flex:1,background:'none',border:'none',color:'var(--ink)',fontSize:'.98rem',padding:'9px 0',outline:'none',fontFamily:'inherit'}} />
+            {search
+              ? <button onClick={() => setSearch('')} aria-label="Clear search" style={{padding:'6px 12px',borderRadius:999,border:'1px solid var(--line)',fontSize:'.8rem',color:'var(--ink-mute)',cursor:'pointer'}}>Clear</button>
+              : <span style={{fontSize:'.72rem',color:'var(--ink-mute)',paddingRight:12,whiteSpace:'nowrap'}}>{shownCount} dishes</span>}
+          </div>
+          <div style={{display:'flex',gap:8,overflowX:'auto',scrollbarWidth:'thin'}}>
+            {FILTERS.map(f => (
+              <button key={f} onClick={() => setFilter(f)} style={{flexShrink:0,padding:'.5em 1em',borderRadius:999,border:'1px solid var(--line)',fontWeight:600,fontSize:'.84rem',cursor:'pointer',transition:'.2s',whiteSpace:'nowrap',
+                background: f===filter ? 'linear-gradient(135deg,var(--gold-soft),var(--gold))' : 'var(--panel)',
+                color: f===filter ? '#22160a' : 'var(--ink-soft)',
+                borderColor: f===filter ? 'transparent' : 'var(--line)'}}>
+                {f}
+              </button>
+            ))}
           </div>
         </div>
       </div>
-      <div style={{position:'sticky',top:68,zIndex:30,background:'color-mix(in oklab,var(--paper) 90%,transparent)',backdropFilter:'blur(10px)',borderTop:'1px solid var(--line)',borderBottom:'1px solid var(--line)',padding:'11px 0'}}>
-        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px',display:'flex',gap:8,overflowX:'auto',scrollbarWidth:'thin'}}>
-          {FILTERS.map(f => (
-            <button key={f} onClick={() => setFilter(f)} style={{flexShrink:0,padding:'.52em 1em',borderRadius:999,border:'1px solid var(--line)',fontWeight:600,fontSize:'.84rem',cursor:'pointer',transition:'.2s',whiteSpace:'nowrap',
-              background: f===filter ? 'linear-gradient(135deg,var(--gold-soft),var(--gold))' : 'var(--panel)',
-              color: f===filter ? '#22160a' : 'var(--ink-soft)',
-              borderColor: f===filter ? 'transparent' : 'var(--line)'}}>
-              {f}
-            </button>
-          ))}
+      {(search || filter !== 'All') && (
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'12px 24px 0',color:'var(--ink-mute)',fontSize:'.82rem',fontWeight:600}}>
+          {shownCount} {shownCount === 1 ? 'dish' : 'dishes'} found{search ? ` for "${search}"` : ''}
         </div>
-      </div>
+      )}
       <div style={{maxWidth:1200,margin:'0 auto',padding:'20px 24px 88px'}}>
         {visibleSecs.length === 0 && (
           <div style={{textAlign:'center',padding:'60px 0',color:'var(--ink-mute)'}}>
